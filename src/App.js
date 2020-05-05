@@ -1,26 +1,77 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import store from './redux'
+import { Provider } from 'react-redux'
+import Header from './Header'
+import { 
+  Route, 
+  BrowserRouter as Router 
+} from 'react-router-dom'
+
+import Home from './screens/Home'
+import Admin from './screens/Admin'
+import Restrito from './screens/Restrito'
+import Login from './screens/Login'
+
+class App extends Component {
+// function App() {
+
+  // const [posts, setPosts] = useState([{}])
+
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     const response = await axios.post('http://localhost:3001/users/login', {
+  //       email: 'tuliofaria@devpleno.com',
+  //       passwd: 'abc123'
+  //     })
+  //     setPosts(response)
+  //     localStorage.setItem('token', response.data.token)
+  //     const decoded = jwtDecode(response.data.token)
+  //     console.log(decoded)
+  //   }
+  //   fetchPosts()
+  // },[])
+  // console.log(posts)
+
+  /*async componentDidMount() {
+    let token = localStorage.getItem('token')
+    if(!token){
+      const login = await axios.post('http://localhost:3001/users/login', {
+        email: 'tuliofaria@devpleno.com',
+        passwd: 'abc123'
+      })
+      token = login.data.token
+    }
+    const decoded = jwtDecode(token)
+    console.log(decoded)
+
+    const user = await axios.get('http://localhost:3001/users/me', {
+      headers:{
+        Authorization: 'Bearer '+token
+      }
+    })
+    console.log(user)
+  }*/
+  render() {
+    return (
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            
+            <Route exact path='/' component={Home} />
+            <Route path='/admin' component={Admin} />
+            <Route path='/restrito' component={Restrito} />
+            <Route path='/login' component={Login} />
+
+            <Header />
+          </div>
+        </Router>
+      </Provider>
+    );
+  }
 }
 
 export default App;
